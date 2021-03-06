@@ -1,0 +1,17 @@
+<section class="beers-container">
+  <form action="/beers/s" method="get">
+    <input type="text" name="beerName">
+
+    <button type="submit">Buscar Cerveja</button>
+  </form>
+
+  {{#each beers}}
+    <div class="beer-card">
+      <a href="/beer?beerId={{this.id}}">
+        <img src="{{this.image_url}}" alt="{{this.name}}-image">
+
+        {{>beersPartial this}}
+      </a>
+    </div>
+  {{/each}}
+</section>

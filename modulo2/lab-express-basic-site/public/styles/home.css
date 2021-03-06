@@ -1,0 +1,12 @@
+section {
+  padding: 0 80px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+img {
+  margin-top: 40px;
+  width: 600px;
+  height: auto;
+  border: 25px solid darkblue; 
+}

@@ -1,0 +1,9 @@
+.out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.with-stock {
+  color: #000;
+  font-weight: normal;
+}

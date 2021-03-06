@@ -1,0 +1,12 @@
+.display-foods {
+  width: 600px
+}
+
+.foods-cart {
+  flex: 1;
+  padding-left: 60px;
+}
+
+.foods-info-container {
+  display: flex;
+}
