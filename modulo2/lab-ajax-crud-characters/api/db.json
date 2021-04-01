@@ -1,0 +1,25 @@
+{
+  "characters": [
+    {
+      "id": 3,
+      "name": "Sponge Bob",
+      "occupation": "Lives under the sea",
+      "weapon": "Crabby Patty",
+      "cartoon": true
+    },
+    {
+      "name": "Henrique Mendes",
+      "occupation": "dev",
+      "weapon": "Java",
+      "cartoon": false,
+      "id": 4
+    },
+    {
+      "name": "Batman",
+      "occupation": "Super Hero",
+      "weapon": "Brain",
+      "cartoon": true,
+      "id": 5
+    }
+  ]
+}

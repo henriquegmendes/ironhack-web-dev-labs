@@ -1,0 +1,113 @@
+const charactersAPI = new APIHandler('http://localhost:8000');
+
+window.addEventListener('load', () => {
+  document.getElementById('fetch-all').addEventListener('click', async function () {
+    const allCharacters = await charactersAPI.getFullList(); // pega todos os personagens existentes na nossa API (array de objetos)
+
+    updateCharactersContainer(allCharacters);
+  });
+
+  document.getElementById('fetch-one').addEventListener('click', async function () {
+    const idInput = document.getElementById('character-id');
+    const idInputValue = idInput.value; // capturando o input
+
+    const character = await charactersAPI.getOneRegister(idInputValue); // retorna um UNICO personagem (OBJETO)
+    const charactersArray = [];
+
+    if (Object.keys(character).length !== 0) {
+      charactersArray.push(character)
+    }
+
+    updateCharactersContainer(charactersArray);
+
+    idInput.value = '';
+  });
+
+  document.getElementById('delete-one').addEventListener('click', async function () {
+    const idInput = document.getElementById('character-id-delete');
+    const idInputValue = idInput.value; // capturando o input
+
+    await charactersAPI.deleteOneRegister(idInputValue); // deletar o personagem
+    const allCharacters = await charactersAPI.getFullList(); // pegar a lista atualizada de personagens
+    
+    updateCharactersContainer(allCharacters); // atualizar a listagem no DOM
+
+    idInput.value = '';
+  });
+
+  document.getElementById('edit-character-form').addEventListener('submit', async function (event) {
+    event.preventDefault(); // impedir o comportamento default do formulário de atualizar a página no navegador
+
+    const form = document.getElementById('edit-character-form');
+    const formElements = form.elements;
+
+    const idValue = formElements[0].value;
+    const nameValue = formElements[1].value;
+    const occupationValue = formElements[2].value;
+    const weaponValue = formElements[3].value;
+    const cartoonValue = formElements[4].checked; // por ser um checkbox, podemos usar a propriedade "checked"
+
+    const updateCharacterObject = {
+      name: nameValue,
+      occupation: occupationValue,
+      weapon: weaponValue,
+      cartoon: cartoonValue,
+    };
+
+    await charactersAPI.updateOneRegister(updateCharacterObject, idValue);
+    const allCharacters = await charactersAPI.getFullList(); // pegar a lista atualizada de personagens
+
+    updateCharactersContainer(allCharacters); // atualizar a listagem no DOM
+
+    form.reset();
+  });
+
+  document.getElementById('new-character-form').addEventListener('submit', async function (event) {
+    event.preventDefault(); // impedir o comportamento default do formulário de atualizar a página no navegador
+
+    const form = document.getElementById('new-character-form');
+    const formElements = form.elements;
+
+    const nameValue = formElements[0].value;
+    const occupationValue = formElements[1].value;
+    const weaponValue = formElements[2].value;
+    const cartoonValue = formElements[3].checked; // por ser um checkbox, podemos usar a propriedade "checked"
+
+    const newCharacterObject = {
+      name: nameValue,
+      occupation: occupationValue,
+      weapon: weaponValue,
+      cartoon: cartoonValue,
+    };
+
+    await charactersAPI.createOneRegister(newCharacterObject);
+    const allCharacters = await charactersAPI.getFullList(); // pegar a lista atualizada de personagens
+
+    updateCharactersContainer(allCharacters); // atualizar a listagem no DOM
+
+    form.reset();
+  });
+});
+
+function updateCharactersContainer(charactersArray) {
+  const charactersContainer = document.querySelector('.characters-container'); // captura a div que contém todos os personagens
+    charactersContainer.innerHTML = ''; // limpo o container
+
+    if (charactersArray.length === 0) {
+      charactersContainer.innerHTML = '<h1>Nenhum Personagem Encontrado</h1>';
+
+      return;
+    }
+
+    charactersArray.forEach(character => { // cada personagem é um OBJETO!!!
+      charactersContainer.innerHTML += `
+        <div class="character-info">
+          <div class="name">Character Name: ${character.name}</div>
+          <div class="occupation">Character Occupation: ${character.occupation}</div>
+          <div class="cartoon">Is a Cartoon? ${character.cartoon ? 'Yes' : 'No'}</div>
+          <div class="weapon">Character Weapon: ${character.weapon}</div>
+        </div>
+      `;
+    });
+}
+
